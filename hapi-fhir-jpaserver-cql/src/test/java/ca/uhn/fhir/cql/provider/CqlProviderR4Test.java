@@ -8,16 +8,12 @@ import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.rp.r4.LibraryResourceProvider;
 import ca.uhn.fhir.jpa.rp.r4.MeasureResourceProvider;
 import ca.uhn.fhir.jpa.rp.r4.ValueSetResourceProvider;
-import ca.uhn.fhir.util.StopWatch;
-import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.MeasureReport;
 import org.hl7.fhir.r4.model.Patient;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.StringUtils;
 import org.opencds.cqf.r4.providers.MeasureOperationsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +26,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
-// FIXME KBD
-@Disabled
 public class CqlProviderR4Test extends BaseCqlR4Test implements CqlProviderTestBase {
 	private static final Logger ourLog = LoggerFactory.getLogger(CqlProviderR4Test.class);
 
@@ -55,13 +49,28 @@ public class CqlProviderR4Test extends BaseCqlR4Test implements CqlProviderTestB
 	MeasureOperationsProvider myProvider;
 
 	@BeforeEach
-	public void before() {
+	public void before() throws IOException {
+		// FIXME KBD Can we find a way to remove these?
+		myMeasureResourceProvider.setDao(myDaoRegistry.getResourceDao("Measure"));
+		myLibraryResourceProvider.setDao(myDaoRegistry.getResourceDao("Library"));
+		myValueSetResourceProvider.setDao(myDaoRegistry.getResourceDao("ValueSet"));
+
 		myProvider = myCqlProviderLoader.buildR4Provider();
+
+		// Load terminology for measure tests (HEDIS measures)
+		loadBundle("hedis-valuesets-bundle.json");
+
+		// Load libraries
+		loadResource("library/library-fhir-model-definition.json", myFhirContext, myDaoRegistry);
+		loadResource("library/library-fhir-helpers.json", myFhirContext, myDaoRegistry);
+		loadResource("library/library-asf-logic.json", myFhirContext, myDaoRegistry);
+
+		// load test data and conversion library for $apply operation tests
+		loadResource("general-practitioner.json", myFhirContext, myDaoRegistry);
+		loadResource("general-patient.json", myFhirContext, myDaoRegistry);
 	}
 
-	// FIXME KBD
-	//@Test
-	@Disabled
+	@Test
 	public void evaluateMeasure() throws IOException {
 		// Load the measure for ASF: Unhealthy Alcohol Use Screening and Follow-up (ASF)
 		loadResource("measure-asf.json", myFhirContext, myDaoRegistry);
