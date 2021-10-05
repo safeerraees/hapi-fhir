@@ -1241,7 +1241,7 @@
 			<dependency>
 				<groupId>org.codehaus.plexus</groupId>
 				<artifactId>plexus-utils</artifactId>
-				<version>3.1.0</version>
+				<version>3.4.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.codehaus.woodstox</groupId>
@@ -1819,7 +1819,7 @@
 						<dependency>
 							<groupId>org.codehaus.plexus</groupId>
 							<artifactId>plexus-utils</artifactId>
-							<version>3.1.0</version>
+							<version>3.4.1</version>
 						</dependency>
 					</dependencies>
 				</plugin>
