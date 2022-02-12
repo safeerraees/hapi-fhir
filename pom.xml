@@ -747,7 +747,7 @@
 		<httpclient_version>4.5.13</httpclient_version>
 		<jackson_version>2.11.2</jackson_version>
 		<jackson_databind_version>2.11.2</jackson_databind_version>
-		<maven_assembly_plugin_version>3.1.0</maven_assembly_plugin_version>
+		<maven_assembly_plugin_version>3.3.0</maven_assembly_plugin_version>
 		<maven_license_plugin_version>1.8</maven_license_plugin_version>
 		<resteasy_version>4.0.0.Beta5</resteasy_version>
 		<ph_schematron_version>5.2.0</ph_schematron_version>
